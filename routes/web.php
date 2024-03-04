@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\InertiaTestController;
+use App\Http\Controllers\WordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,3 +45,12 @@ Route::get('/inertia-test', function(){
 });
 Route::get('/inertia/index', [InertiaTestController::class, 'index'])->name('inertia.index');
 Route::get('/inertia/show/{id}', [InertiaTestController::class, 'show'])->name('inertia.show');
+
+// Words
+Route::get('/hello-world', function () {
+    return Inertia::render('Words/HelloWorld');
+});
+Route::get('/tweet',[App\Http\Controllers\WordController::class, 'index'])->name('word.index');
+Route::get('/word/search/{queryWord}',[App\Http\Controllers\WordController::class, 'search'])->name('word.search');
+Route::post('/word/store',[App\Http\Controllers\WordController::class, 'store'])->name('word.store');
+Route::delete('/word/delete/{id}',[App\Http\Controllers\WordController::class, 'destroy'])->name('word.delete');
