@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { Link } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 import WordsLayout from '@/Layouts/WordsLayout.vue'
 import dayjs from 'dayjs'
 
@@ -11,6 +11,12 @@ defineProps({
 const userName = ref('');
 const newContent = ref('');
 const searchWord = ref('');
+
+const deleteConfirm = id => {
+    router.delete(`/word/delete/${id}`,{
+        onBefore:() => confirm('削除しますか？')
+    })
+}
 </script>
 
 <template>
@@ -56,7 +62,10 @@ const searchWord = ref('');
                 {{ word.content }}
                 ({{ word.user_name }})
                 {{ dayjs(word.created_at).format('YYYY-MM-DD HH:mm:ss') }}
-                <Link as="button" method="delete" :href="route('word.delete',word.id)" preserve-scroll :only="['words']" class="border border-red-400 m-1 p-1 text-sm text-red-400">×</Link>
+                <button @click="deleteConfirm(word.id)"
+                    class="border border-red-400 m-1 p-1 text-sm text-red-400">
+                    ×
+                </button>
             </li>
         </ul>
         
